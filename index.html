@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>VINCY — Acessibilidade Auditiva</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" href="projeto.css">
+</head>
+<body>
+    <div class="app">
+        <header class="topbar">
+            <div class="logo">
+                <img src="Captura_de_tela_2026-04-15_171136-removebg-preview.png" alt="Logo VibraSense" class="logo_image">
+            </div>
+            <button class="bt-chip connected" id="bt-chip" onclick="toggleBluetooth()" aria-label="Status Bluetooth">
+                <span class="dot"></span>
+                <span id="bt-label">Conectado</span>
+            </button>
+        </header>
+
+        <main class="scroll-body">
+            <section class="hero" aria-label="Status do dispositivo">
+                <div class="device-ring pulse" role="img" aria-label="Pulseira VibraSense VS-01 conectada">
+                    <div class="device-inner">
+                        <div class="device-icon" aria-hidden="true">⌚</div>
+                        <div class="device-label">VS-01</div>
+                    </div>
+                </div>
+                <div class="sound-badge" id="sound-badge" aria-live="polite">
+                    <div class="sound-wave" id="sound-wave" aria-hidden="true">
+                        <span></span><span></span><span></span><span></span>
+                    </div>
+                    <span id="sound-text">Alarme de incêndio</span>
+                </div>
+            </section>
+
+            <section class="section" aria-label="Monitor de som">
+                <div class="section-title">Som detectado</div>
+                <div class="monitor-card">
+                    <div class="monitor-top">
+                        <div>
+                            <div class="monitor-detected">Último som</div>
+                            <div class="monitor-sound" id="monitor-sound">Alarme de incêndio</div>
+                        </div>
+                        <div class="monitor-time" id="monitor-time" aria-live="polite">agora mesmo</div>
+                    </div>
+                    <div class="monitor-pills" role="group" aria-label="Simular detecção de som">
+                        <button class="pill active" onclick="detectSound(this,'Alarme de incêndio','alarm')">Alarme</button>
+                        <button class="pill" onclick="detectSound(this,'Campainha da porta','door')">Campainha</button>
+                        <button class="pill" onclick="detectSound(this,'Chamada telefônica','phone')">Telefone</button>
+                        <button class="pill" onclick="detectSound(this,'Voz humana','voice')">Voz</button>
+                        <button class="pill" onclick="detectSound(this,'Sirene de emergência','alarm')">Sirene</button>
+                        <button class="pill" onclick="detectSound(this,'Bebê chorando','phone')">Bebê</button>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section" aria-label="Tipo de vibração">
+                <div class="section-title">Tipo de vibração</div>
+                <div class="vib-grid" role="group" aria-label="Selecionar padrão de vibração">
+                    <button class="vib-card active" onclick="selectVib(this)" aria-pressed="true">
+                        <div class="vib-card-icon" aria-hidden="true">🚨</div>
+                        <div class="vib-card-name">Urgente</div>
+                        <div class="vib-card-desc">Pulso rápido</div>
+                        <div class="vib-card-pattern" aria-hidden="true">
+                            <span style="width:16px"></span><span style="width:5px"></span>
+                            <span style="width:16px"></span><span style="width:5px"></span>
+                            <span style="width:16px"></span>
+                        </div>
+                    </button>
+                    <button class="vib-card" onclick="selectVib(this)" aria-pressed="false">
+                        <div class="vib-card-icon" aria-hidden="true">🔔</div>
+                        <div class="vib-card-name">Atenção</div>
+                        <div class="vib-card-desc">Pulso suave</div>
+                        <div class="vib-card-pattern" aria-hidden="true">
+                            <span style="width:22px"></span><span style="width:8px"></span>
+                            <span style="width:22px"></span>
+                        </div>
+                    </button>
+                    <button class="vib-card" onclick="selectVib(this)" aria-pressed="false">
+                        <div class="vib-card-icon" aria-hidden="true">💬</div>
+                        <div class="vib-card-name">Informativo</div>
+                        <div class="vib-card-desc">Pulso lento</div>
+                        <div class="vib-card-pattern" aria-hidden="true">
+                            <span style="width:28px"></span><span style="width:12px"></span>
+                            <span style="width:14px"></span>
+                        </div>
+                    </button>
+                    <button class="vib-card" onclick="selectVib(this)" aria-pressed="false">
+                        <div class="vib-card-icon" aria-hidden="true">🌙</div>
+                        <div class="vib-card-name">Silencioso</div>
+                        <div class="vib-card-desc">Vibração mínima</div>
+                        <div class="vib-card-pattern" aria-hidden="true">
+                            <span style="width:10px"></span><span style="width:20px"></span>
+                            <span style="width:10px"></span>
+                        </div>
+                    </button>
+                </div>
+            </section>
+
+            <section class="section" aria-label="Histórico de alertas">
+                <div class="section-title">Histórico</div>
+                <div class="history-list" id="history-list" aria-live="polite">
+                    <div class="hist-item">
+                        <div class="hist-dot alarm" aria-hidden="true">🚨</div>
+                        <div class="hist-info">
+                            <div class="hist-name">Alarme de incêndio</div>
+                            <div class="hist-time">Hoje, 14:32</div>
+                        </div>
+                        <div class="hist-vib">Urgente</div>
+                    </div>
+                </div>
+            </section>
+
+            <button class="connect-btn connected" id="connect-btn" onclick="toggleConnect()" aria-label="Conectar ou desconectar pulseira">
+                <span id="connect-label">Pulseira conectada</span>
+            </button>
+        </main>
+
+        
+    </div>
+    <script src="projeto.js"></script>
+</body>
+</html>
